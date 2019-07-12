@@ -1,27 +1,32 @@
+
+
 package edu.pdx.cs410J.nkhoi;
 
-import org.junit.Test;
+        import org.junit.Ignore;
+        import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+        import static org.hamcrest.CoreMatchers.*;
+        import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Unit tests for the {@link Appointment} class.
  */
 public class AppointmentTest {
 
+  @Ignore
   @Test(expected = UnsupportedOperationException.class)
   public void getBeginTimeStringNeedsToBeImplemented() {
     Appointment appointment = new Appointment();
     appointment.getBeginTimeString();
   }
 
+  /*
   @Test
   public void initiallyAllAppointmentsHaveTheSameDescription() {
     Appointment appointment = new Appointment();
     assertThat(appointment.getDescription(), containsString("not implemented"));
   }
-
+*/
   @Test
   public void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
     Appointment appointment = new Appointment();
