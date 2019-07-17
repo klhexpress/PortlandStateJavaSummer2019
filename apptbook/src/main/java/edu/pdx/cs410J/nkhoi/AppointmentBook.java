@@ -22,10 +22,9 @@ public class AppointmentBook extends AbstractAppointmentBook {
 
     /**
      * Creates a new <code>AppointmentBook</code>
-     * @param name
-     *        The name of the AppointmentBook's owner
-     * @param target
-     *        The appointment which you want to add to the AppointmentBook
+     *
+     * @param name   The name of the AppointmentBook's owner
+     * @param target The appointment which you want to add to the AppointmentBook
      */
     public AppointmentBook(String name, Appointment target) {
         owner = name;
@@ -35,15 +34,13 @@ public class AppointmentBook extends AbstractAppointmentBook {
 
     /**
      * Creates a new <code>AppointmentBook</code> with owner name only
-     * @param name
-     *        The name of the AppointmentBook's owner
+     *
+     * @param name The name of the AppointmentBook's owner
      */
-    public AppointmentBook(String name){
+    public AppointmentBook(String name) {
         owner = name;
         list = null;
     }
-
-
 
 
     /**
@@ -64,8 +61,8 @@ public class AppointmentBook extends AbstractAppointmentBook {
 
     /**
      * Wrapper function help to add an appointment to the AppointmentBook
-     * @param target
-     *        The appointment added to the AppointmentBook
+     *
+     * @param target The appointment added to the AppointmentBook
      */
     @Override
     public void addAppointment(AbstractAppointment target) {
@@ -73,13 +70,13 @@ public class AppointmentBook extends AbstractAppointmentBook {
     }
 
     /**
-     *The function adding an appointment to the AppointmentBook
-     * @param target
-     *        The appointment added to the AppointmentBook
+     * The function adding an appointment to the AppointmentBook
+     *
+     * @param target The appointment added to the AppointmentBook
      * @return the list of appointment in the AppointmentBook
      */
     private ArrayList<AbstractAppointment> AddingAppointment(AbstractAppointment target) {
-        if(owner == null){
+        if (owner == null) {
             System.err.println("There is no name for the Appointment Book");
             System.exit(1);
         }
@@ -93,11 +90,10 @@ public class AppointmentBook extends AbstractAppointmentBook {
     }
 
     /**
-     *Display all the appointments in the AppointmentBook
+     * Display all the appointments in the AppointmentBook
      */
     public void display() {
         if (list == null) {
-
             throw new NullPointerException();
         } else {
             for (int i = 0; i < list.size(); i++) {

@@ -16,9 +16,14 @@ public class Appointment extends AbstractAppointment {
    * Creates a new <code>splittingString</code>
    *
    * @param input The input string which will be split
+   * @throws NumberFormatException Throw an exception when the input date/time is malformatted
    */
-  private int[] splittingString(String input) {
+  private int[] splittingString(String input) throws NumberFormatException {
     String[] words = input.split("/|\\:");
+    if (words.length > 3) {
+      System.err.println("Date/Time is malformatted");
+      System.exit(1);
+    }
     int[] number = new int[3];
     int i = 0;
     for (String w : words)
@@ -48,30 +53,34 @@ public class Appointment extends AbstractAppointment {
     this.endingdate = endingdate;
     this.endingtime = endingtime;
 
-    int[] startdates = splittingString(this.begindate);
-    int[] enddates = splittingString(this.endingdate);
+    try {
+      int[] startdates = splittingString(this.begindate);
+      int[] enddates = splittingString(this.endingdate);
 
-    if (startdates[0] > 12 || startdates[0] < 0 || startdates[1] < 0 || startdates[1] > 31) {
-      System.err.println("ERROR START DATE");
+      if (startdates[0] > 12 || startdates[0] < 0 || startdates[1] < 0 || startdates[1] > 31) {
+        System.err.println("ERROR START DATE");
+        System.exit(1);
+      }
+      if (enddates[0] > 12 || enddates[0] < 0 || enddates[1] < 0 || enddates[1] > 31) {
+        System.err.println("ERROR END DATE");
+        System.exit(1);
+      }
+
+      int[] starttimes = splittingString(begintime);
+      int[] endtimes = splittingString(endingtime);
+
+      if (starttimes[0] > 23 || starttimes[0] < 0 || starttimes[1] < 0 || starttimes[1] > 59) {
+        System.err.println("ERROR START TIME");
+        System.exit(1);
+      }
+      if (endtimes[0] > 23 || endtimes[0] < 0 || endtimes[1] < 0 || endtimes[1] > 59) {
+        System.err.println("ERROR END TIME");
+        System.exit(1);
+      }
+    } catch (NumberFormatException ex) {
+      System.err.println("Date/Time is malformatted");
       System.exit(1);
     }
-    if (enddates[0] > 12 || enddates[0] < 0 || enddates[1] < 0 || enddates[1] > 31) {
-      System.err.println("ERROR END DATE");
-      System.exit(1);
-    }
-
-    int[] starttimes = splittingString(begintime);
-    int[] endtimes = splittingString(endingtime);
-
-    if (starttimes[0] > 23 || starttimes[0] < 0 || starttimes[1] < 0 || starttimes[1] > 59) {
-      System.err.println("ERROR START TIME");
-      System.exit(1);
-    }
-    if (endtimes[0] > 23 || endtimes[0] < 0 || endtimes[1] < 0 || endtimes[1] > 59) {
-      System.err.println("ERROR END TIME");
-      System.exit(1);
-    }
-
   }
 
   /**

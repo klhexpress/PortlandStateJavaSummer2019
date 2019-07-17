@@ -17,46 +17,36 @@ public class TextDumper implements AppointmentBookDumper {
 
     /**
      * Creates a new  <code>TextParser</code> object
-     * @param input
-     *        The name of the file will be written to
+     *
+     * @param input The name of the file will be written to
      */
-    public TextDumper(String input){
+    public TextDumper(String input) {
         fileName = input;
     }
 
 
     /**
-     * @param var1 the AppointmentBook which will be written to file
-     * @throws IOException in case it's fail to write the file
+     * @param var the AppointmentBook which will be written to file
+     * @throws IOException throw an exception in case it's fail to write the file
      */
     @Override
-    public void dump(AbstractAppointmentBook var1) throws IOException {
-        // Assume default encoding.
+    public void dump(AbstractAppointmentBook var) throws IOException {
         FileWriter fileWriter = new FileWriter(fileName);
-
-        // Always wrap FileWriter in BufferedWriter.
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-        // Note that write() does not automatically
-        // append a newline character.
-        bufferedWriter.write("Owner: " + var1.getOwnerName());
+        bufferedWriter.write("Owner: " + var.getOwnerName());
         bufferedWriter.newLine();
 
-        //Appointment []temp = new Appointment[100];
-        //      var1.getAppointments().toArray(temp);
-        Collection<Appointment> temp3 = var1.getAppointments();
-        for (Appointment temp2 : temp3) {
-            bufferedWriter.write("Description: " + temp2.getDescription());
+        Collection<Appointment> temp = var.getAppointments();
+        for (Appointment i : temp) {
+            bufferedWriter.write("Description: " + i.getDescription());
             bufferedWriter.newLine();
-            bufferedWriter.write("Begindate: " + temp2.getBeginTimeString());
+            bufferedWriter.write("Begindate: " + i.getBeginTimeString());
             bufferedWriter.newLine();
-            bufferedWriter.write("Endingdate: " + temp2.getEndTimeString());
+            bufferedWriter.write("Endingdate: " + i.getEndTimeString());
             bufferedWriter.newLine();
         }
 
-        // Always close files.
         bufferedWriter.close();
-
     }
 }
 

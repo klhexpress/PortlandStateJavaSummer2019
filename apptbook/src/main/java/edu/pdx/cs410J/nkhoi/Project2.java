@@ -10,9 +10,9 @@ import java.io.*;
 public class Project2 {
 
     static final String README = "KHOI NGUYEN - PROJECT 2 - This project will take owner name, description, begintime, and ending time to create an appointment. " +
-                                    "The program will add that appointment to the Appointment Book with the [option] to print that appointment. Addtionally, with the " +
-                                    "-textFile option, you can reads the contents of a text file and from it creates an appointment book with " +
-                                    "its associated appointments then add the new appointment from command line and write it back to the file";
+            "The program will add that appointment to the Appointment Book with the [option] to print that appointment. Addtionally, with the " +
+            "-textFile option, you can reads the contents of a text file and from it creates an appointment book with " +
+            "its associated appointments then add the new appointment from command line and write it back to the file";
 
     public static void main(String[] args) {
 
@@ -38,7 +38,7 @@ public class Project2 {
                     temp = new AppointmentBook(args[i], FromCommandLine);
                     flag = true;
                 } else {
-                    System.err.println("Missing arguments OR Extraneous arguments: " + args.length + "-" + i);
+                    System.err.println("Missing arguments OR Extraneous arguments");
                     System.exit(1);
                 }
             }
@@ -83,8 +83,6 @@ public class Project2 {
                     }
             }
         }
-
-        infile.display();
 
         System.exit(0);
     }
