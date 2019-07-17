@@ -1,64 +1,18 @@
 package edu.pdx.cs410J.nkhoi;
+import edu.pdx.cs410J.ParserException;
 import java.io.*;
+
+/**
+ * The main class for the CS410J appointment book Project
+ */
+
 
 public class Project2 {
 
-    static String fileName = "sample.txt";
-
-    public static void readfile() {
-        String ch;
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader = new FileReader(fileName);
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            ch = bufferedReader.readLine();
-            while(ch != null ) {
-                System.out.println(ch);
-                ch = bufferedReader.readLine();
-            }
-
-            // Always close files.
-            bufferedReader.close();
-        }catch(FileNotFoundException ex) {
-            System.out.println(
-                    "Unable to open file '" +
-                            fileName + "'");
-        }catch (IOException e) {
-            // exception handling
-        }
-    }
-
-    public static void writefile(String args1, String args2, String args3, String args4, String args5, String args6) {
-        try {
-            // Assume default encoding.
-            FileWriter fileWriter = new FileWriter(fileName);
-
-            // Always wrap FileWriter in BufferedWriter.
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            // Note that write() does not automatically
-            // append a newline character.
-            bufferedWriter.write("Owner: " + args1);
-            bufferedWriter.newLine();
-            bufferedWriter.write("Description: " + args2);
-            bufferedWriter.newLine();
-            bufferedWriter.write("Begindate: " + args3);
-            bufferedWriter.newLine();
-            bufferedWriter.write("Begintime: " + args4);
-            bufferedWriter.newLine();
-            bufferedWriter.write("Endingdate: " + args5);
-            bufferedWriter.newLine();
-            bufferedWriter.write("Endingtime: " + args6);
-            // Always close files.
-            bufferedWriter.close();
-        } catch (IOException ex) {
-            System.out.println("Error writing to file '" + fileName + "'");
-            // Or we could just do this:
-            // ex.printStackTrace();
-        }
-    }
+    static final String README = "KHOI NGUYEN - PROJECT 2 - This project will take owner name, description, begintime, and ending time to create an appointment. " +
+                                    "The program will add that appointment to the Appointment Book with the [option] to print that appointment. Addtionally, with the " +
+                                    "-textFile option, you can reads the contents of a text file and from it creates an appointment book with " +
+                                    "its associated appointments then add the new appointment from command line and write it back to the file";
 
     public static void main(String[] args) {
 
@@ -67,46 +21,71 @@ public class Project2 {
             System.exit(1);
         }
 
-        System.out.println("This is project 2 " + args[0]);
-        if (args.length == 6)
-            writefile(args[0], args[1], args[2], args[3], args[4], args[5]);
-        else{
-            System.out.println("Not enough args");
-            readfile();
+        AppointmentBook infile = new AppointmentBook();
+
+        String fileName = null;
+        AppointmentBook temp = new AppointmentBook();
+        Appointment FromCommandLine = new Appointment();
+
+        boolean flag = false;
+        for (int i = 0; i < args.length && !flag; i++) {
+            if (args[i].equals("-textFile")) {
+                fileName = args[i + 1];
+            }
+            if (!args[i].equals("-print") && !args[i].equals("-README") && !args[i].equals("-textFile") && !args[i].equals(fileName)) {
+                if (args.length - i == 6) {
+                    FromCommandLine = new Appointment(args[i + 1], args[i + 2], args[i + 3], args[i + 4], args[i + 5]);
+                    temp = new AppointmentBook(args[i], FromCommandLine);
+                    flag = true;
+                } else {
+                    System.err.println("Missing arguments OR Extraneous arguments: " + args.length + "-" + i);
+                    System.exit(1);
+                }
+            }
         }
 
+        boolean FileExist = true;
+        for (int i = 0; !args[i].equals(FromCommandLine.getDescription()); i++) {
+            if (args[i].equals("-README")) {
+                System.err.println(README);
+                System.exit(1);
+            } else if (args[i].equals("-print")) {
+                System.out.println(FromCommandLine.toString());
+            } else if (args[i].equals("-textFile")) {           //new code
+                try {
+                    TextParser test2 = new TextParser(args[i + 1]);
+                    infile = test2.parse();
+                } catch (FileNotFoundException ex) {
+                    System.err.println("CAN NOT OPEN FILE: " + fileName + ". CREATING NEW FILE");
+                    FileExist = false;
+                    infile = temp;
+                    try {
+                        TextDumper test = new TextDumper(fileName);
+                        test.dump(infile);
+                    } catch (IOException io1) {
+                        System.err.println("Error writing to file ");
+                    }
+                } catch (ParserException p) {
+                    System.err.println("FAIL TO PARSE");
+                }
+                if (FileExist)
+                    if (temp.getOwnerName().equals(infile.getOwnerName())) {
+                        try {
+                            infile.addAppointment(FromCommandLine);
+                            TextDumper test = new TextDumper(fileName);
+                            test.dump(infile);
+                        } catch (IOException io2) {
+                            System.err.println("Error writing to file ");
+                        }
+                    } else {
+                        System.err.println("Name from command line does not match in file");
+                        System.exit(1);
+                    }
+            }
+        }
 
-
+        infile.display();
 
         System.exit(0);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*int ch;
-        try(FileReader fileReader = new FileReader(fileName)) {
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            ch = bufferedReader.read();
-
-            while(ch != -1) {
-                System.out.println((char)ch);
-                ch = bufferedReader.read();
-            }
-        } catch (FileNotFoundException e) {
-            // exception handling
-            System.out.println(
-                    "Unable to open file '" +
-                            args[0] + "'");
-        } catch (IOException e) {
-            // exception handling
-        }*/

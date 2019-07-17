@@ -16,6 +16,7 @@ public class AppointmentBook extends AbstractAppointmentBook {
      * Creates an empty <code>AppointmentBook</code>
      */
     public AppointmentBook() {
+        owner = null;
         list = null;
     }
 
@@ -31,6 +32,19 @@ public class AppointmentBook extends AbstractAppointmentBook {
         list = new ArrayList<AbstractAppointment>();
         list.add(target);
     }
+
+    /**
+     * Creates a new <code>AppointmentBook</code> with owner name only
+     * @param name
+     *        The name of the AppointmentBook's owner
+     */
+    public AppointmentBook(String name){
+        owner = name;
+        list = null;
+    }
+
+
+
 
     /**
      * @return the name of the AppointmentBook's owner
@@ -65,6 +79,10 @@ public class AppointmentBook extends AbstractAppointmentBook {
      * @return the list of appointment in the AppointmentBook
      */
     private ArrayList<AbstractAppointment> AddingAppointment(AbstractAppointment target) {
+        if(owner == null){
+            System.err.println("There is no name for the Appointment Book");
+            System.exit(1);
+        }
         if (list == null) {
             list = new ArrayList<AbstractAppointment>();
             list.add(target);
@@ -79,6 +97,7 @@ public class AppointmentBook extends AbstractAppointmentBook {
      */
     public void display() {
         if (list == null) {
+
             throw new NullPointerException();
         } else {
             for (int i = 0; i < list.size(); i++) {
