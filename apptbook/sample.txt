@@ -1,7 +1,4 @@
 Owner: Brian Griffin
-Description: This is test3
-Begindate: 1/1/2011 10:1
-Endingdate: 12/21/2010 23:42
-Description: This is tes4
+Description: This is tes1
 Begindate: 1/1/2011 10:1
 Endingdate: 12/21/2010 23:42
