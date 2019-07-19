@@ -1,11 +1,16 @@
 package edu.pdx.cs410J.nkhoi;
 
 import edu.pdx.cs410J.AbstractAppointment;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * This class is represents an <code>Appointment</code>.
  */
-public class Appointment extends AbstractAppointment {
+public class Appointment extends AbstractAppointment implements Comparable <Appointment> {
   private String description;
   private String begintime;
   private String endingtime;
@@ -52,6 +57,27 @@ public class Appointment extends AbstractAppointment {
     this.begintime = begintime;
     this.endingdate = endingdate;
     this.endingtime = endingtime;
+
+    Locale locale = Locale.getDefault();
+    //Date date = new Date();
+    try {
+      //Date date = new SimpleDateFormat("mm/dd/yyyy").parse(begindate);
+      //Date time = new SimpleDateFormat("hh:mm").parse(begintime);
+      Date date = new SimpleDateFormat("mm/dd/yyyy hh:mm").parse(begindate + " " + begintime);
+      DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+      DateFormat df2 = DateFormat.getTimeInstance(DateFormat.SHORT, locale);
+
+      String s = df.format(date);
+      //String s2 = df2.format(time);
+      //DateFormat df = new SimpleDateFormat(s.get(locale).)
+
+      System.out.println(s + "\t");
+
+
+    } catch (ParseException pe) {
+      System.err.println("CAN NOT PARSE STRING");
+      System.exit(1);
+    }
 
     try {
       int[] startdates = splittingString(this.begindate);
@@ -105,5 +131,18 @@ public class Appointment extends AbstractAppointment {
   @Override
   public String getDescription() {
     return description;
+  }
+
+  @Override
+  public int compareTo(Appointment target) {   // new code
+    if (this.getBeginTime().compareTo(target.getBeginTime()) != 0)
+      return this.getBeginTime().compareTo(target.getBeginTime());
+    else if (this.getEndTime().compareTo(target.getEndTime()) != 0)
+      return this.getEndTime().compareTo(target.getEndTime());
+    else if (this.getDescription().compareTo(target.getDescription()) != 0)
+      return this.getDescription().compareTo(target.getDescription());
+    else
+      return 0;
+    //return 0;
   }
 }

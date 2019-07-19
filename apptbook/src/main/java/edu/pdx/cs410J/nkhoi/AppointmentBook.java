@@ -4,13 +4,14 @@ import edu.pdx.cs410J.AbstractAppointment;
 import edu.pdx.cs410J.AbstractAppointmentBook;
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This class is represents an <code>AppointmentBook</code>.
  */
-public class AppointmentBook extends AbstractAppointmentBook {
+public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     private String owner;
-    private ArrayList<AbstractAppointment> list;
+    private ArrayList<Appointment> list;
 
     /**
      * Creates an empty <code>AppointmentBook</code>
@@ -28,7 +29,7 @@ public class AppointmentBook extends AbstractAppointmentBook {
      */
     public AppointmentBook(String name, Appointment target) {
         owner = name;
-        list = new ArrayList<AbstractAppointment>();
+        list = new ArrayList<Appointment>();
         list.add(target);
     }
 
@@ -41,6 +42,8 @@ public class AppointmentBook extends AbstractAppointmentBook {
         owner = name;
         list = null;
     }
+
+
 
 
     /**
@@ -65,8 +68,9 @@ public class AppointmentBook extends AbstractAppointmentBook {
      * @param target The appointment added to the AppointmentBook
      */
     @Override
-    public void addAppointment(AbstractAppointment target) {
+    public void addAppointment(Appointment target) {
         list = AddingAppointment(target);
+        Collections.sort(list);                 //new code
     }
 
     /**
@@ -75,13 +79,13 @@ public class AppointmentBook extends AbstractAppointmentBook {
      * @param target The appointment added to the AppointmentBook
      * @return the list of appointment in the AppointmentBook
      */
-    private ArrayList<AbstractAppointment> AddingAppointment(AbstractAppointment target) {
+    private ArrayList<Appointment> AddingAppointment(Appointment target) {
         if (owner == null) {
             System.err.println("There is no name for the Appointment Book");
             System.exit(1);
         }
         if (list == null) {
-            list = new ArrayList<AbstractAppointment>();
+            list = new ArrayList<Appointment>();
             list.add(target);
         } else {
             list.add(target);
