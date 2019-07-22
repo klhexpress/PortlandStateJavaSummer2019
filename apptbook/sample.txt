@@ -1,4 +1,13 @@
 Owner: Brian Griffin
-Description: This is tes1
-Begindate: 1/1/2011 10:1
-Endingdate: 12/21/2010 23:42
+Description: New test 1
+Begindate: Sun Jan 21 23:59:00 PST 1022
+Endingdate: Wed Jan 29 15:00:00 PST 1024
+Duration: 737.0
+Description: New test 2
+Begindate: Sun Jan 21 23:59:00 PST 1022
+Endingdate: Wed Jan 29 15:00:00 PST 1024
+Duration: 737.0
+Description: New test 2
+Begindate: Sun Jan 21 23:59:00 PST 1022
+Endingdate: Wed Jan 29 15:00:00 PST 1024
+Duration: 737.0

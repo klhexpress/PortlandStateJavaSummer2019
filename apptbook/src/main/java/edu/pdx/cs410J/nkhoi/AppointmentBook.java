@@ -69,8 +69,10 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
      */
     @Override
     public void addAppointment(Appointment target) {
+
         list = AddingAppointment(target);
-        Collections.sort(list);                 //new code
+        if(list.size()>1)
+            Collections.sort(list);                 //new code
     }
 
     /**

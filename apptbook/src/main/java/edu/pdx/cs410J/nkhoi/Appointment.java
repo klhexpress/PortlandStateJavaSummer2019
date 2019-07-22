@@ -16,6 +16,9 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
   private String endingtime;
   private String begindate;
   private String endingdate;
+  private Date begindateobject;
+  private Date endingdateobject;
+
 
   /**
    * Creates a new <code>splittingString</code>
@@ -63,15 +66,21 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
     try {
       //Date date = new SimpleDateFormat("mm/dd/yyyy").parse(begindate);
       //Date time = new SimpleDateFormat("hh:mm").parse(begintime);
-      Date date = new SimpleDateFormat("mm/dd/yyyy hh:mm").parse(begindate + " " + begintime);
-      DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
-      DateFormat df2 = DateFormat.getTimeInstance(DateFormat.SHORT, locale);
 
-      String s = df.format(date);
+      DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+      begindateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm").parse(begindate + " " + begintime);
+      endingdateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm").parse(endingdate + " " + endingtime);
+
+      if(endingdateobject.compareTo(begindateobject) <0){
+        System.err.println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
+        System.exit(1);
+      }
+
+      String s = df.format(begindateobject);
       //String s2 = df2.format(time);
       //DateFormat df = new SimpleDateFormat(s.get(locale).)
 
-      System.out.println(s + "\t");
+      System.out.println(begindateobject + "\t" + s);
 
 
     } catch (ParseException pe) {
@@ -134,15 +143,20 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
   }
 
   @Override
+  public Date getBeginTime(){ return begindateobject;}
+
+  @Override
+  public Date getEndTime(){ return endingdateobject;}
+
+  @Override
   public int compareTo(Appointment target) {   // new code
     if (this.getBeginTime().compareTo(target.getBeginTime()) != 0)
       return this.getBeginTime().compareTo(target.getBeginTime());
     else if (this.getEndTime().compareTo(target.getEndTime()) != 0)
       return this.getEndTime().compareTo(target.getEndTime());
-    else if (this.getDescription().compareTo(target.getDescription()) != 0)
-      return this.getDescription().compareTo(target.getDescription());
+    else if (this.getDescription().toUpperCase().compareTo(target.getDescription().toUpperCase()) != 0)     //!!! missing handle upper & lowercase the same
+      return this.getDescription().toUpperCase().compareTo(target.getDescription().toUpperCase());
     else
       return 0;
-    //return 0;
   }
 }

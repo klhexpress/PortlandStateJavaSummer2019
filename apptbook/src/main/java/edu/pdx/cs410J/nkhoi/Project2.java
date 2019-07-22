@@ -24,15 +24,18 @@ public class Project2 {
         AppointmentBook infile = new AppointmentBook();
 
         String fileName = null;
+        String prettyfileName = "-";
+
         AppointmentBook temp = new AppointmentBook();
         Appointment FromCommandLine = new Appointment();
 
         boolean flag = false;
         for (int i = 0; i < args.length && !flag; i++) {
-            if (args[i].equals("-textFile")) {
+            if (args[i].equals("-textFile"))
                 fileName = args[i + 1];
-            }
-            if (!args[i].equals("-print") && !args[i].equals("-README") && !args[i].equals("-textFile") && !args[i].equals(fileName)) {
+            if(args[i].equals("-pretty"))
+                prettyfileName = args[i+1];
+            if (!args[i].equals("-print") && !args[i].equals("-README") && !args[i].equals("-textFile") && !args[i].equals(fileName) && !args[i].equals("-pretty") && !args[i].equals(prettyfileName)) {
                 if (args.length - i == 6) {
                     FromCommandLine = new Appointment(args[i + 1], args[i + 2], args[i + 3], args[i + 4], args[i + 5]);
                     temp = new AppointmentBook(args[i], FromCommandLine);
@@ -44,7 +47,7 @@ public class Project2 {
             }
         }
 
-        boolean FileExist = true;
+        int FileExist = 2;                      //2 - haven't check, 1 - file exists, 0 - file not exist
         for (int i = 0; !args[i].equals(FromCommandLine.getDescription()); i++) {
             if (args[i].equals("-README")) {
                 System.err.println(README);
@@ -55,9 +58,10 @@ public class Project2 {
                 try {
                     TextParser test2 = new TextParser(args[i + 1]);
                     infile = test2.parse();
+                    FileExist = 1;
                 } catch (FileNotFoundException ex) {
                     System.err.println("CAN NOT OPEN FILE: " + fileName + ". CREATING NEW FILE");
-                    FileExist = false;
+                    FileExist = 0;
                     infile = temp;
                     try {
                         TextDumper test = new TextDumper(fileName);
@@ -68,7 +72,7 @@ public class Project2 {
                 } catch (ParserException p) {
                     System.err.println("FAIL TO PARSE");
                 }
-                if (FileExist)
+                if (FileExist == 1)
                     if (temp.getOwnerName().equals(infile.getOwnerName())) {
                         try {
                             infile.addAppointment(FromCommandLine);
@@ -81,6 +85,17 @@ public class Project2 {
                         System.err.println("Name from command line does not match in file");
                         System.exit(1);
                     }
+            }else if (args[i].equals("-pretty")){
+                if(prettyfileName.equals("-")){
+                    System.out.print("PRINT PRETTY");
+                } else{
+                        try {
+                            PrettyPrinter file = new PrettyPrinter(prettyfileName);
+                            file.dump(FileExist == 1 ? infile : temp);
+                        }catch(IOException io3) {
+                            System.err.println("Error writing to file ");
+                        }
+                }
             }
         }
 
