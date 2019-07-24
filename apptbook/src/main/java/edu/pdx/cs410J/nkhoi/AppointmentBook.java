@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractAppointmentBook;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * This class is represents an <code>AppointmentBook</code>.
@@ -43,7 +44,10 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
         list = null;
     }
 
-
+    private long durationBetween(Date one, Date two) {
+        long difference = (one.getTime() - two.getTime()) / (1000 * 60);
+        return Math.abs(difference);
+    }
 
 
     /**
@@ -71,7 +75,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     public void addAppointment(Appointment target) {
 
         list = AddingAppointment(target);
-        if(list.size()>1)
+        if (list.size() > 1)
             Collections.sort(list);                 //new code
     }
 
@@ -98,12 +102,12 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     /**
      * Display all the appointments in the AppointmentBook
      */
-    public void display() {
+    public void prettydisplay() {
         if (list == null) {
             throw new NullPointerException();
         } else {
             for (int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i).toString());
+                System.out.println("Description: " + list.get(i).toString() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime()) + " minutes" + "\n--------------------");
             }
         }
     }

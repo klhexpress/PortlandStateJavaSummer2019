@@ -89,7 +89,7 @@ public class TextParser implements AppointmentBookParser {
                     System.err.println("FILE ERROR FORMAT");
                     System.exit(1);
                 }
-                inFile = new Appointment(desc, begin[0], begin[1], end[0], end[1]);
+                inFile = new Appointment(desc, begin[0], begin[1], begin[2], end[0], end[1], end[2]);
                 temp.addAppointment(inFile);
                 ch = bufferedReader.readLine();
             }

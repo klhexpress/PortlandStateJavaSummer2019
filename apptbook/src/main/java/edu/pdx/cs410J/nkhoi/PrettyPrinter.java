@@ -12,10 +12,12 @@ import java.util.Date;
 public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
     private String fileName;
 
-    public PrettyPrinter(String input){ fileName = input;}
+    public PrettyPrinter(String input) {
+        fileName = input;
+    }
 
     private long durationBetween(Date one, Date two) {
-        long difference =  (one.getTime()-two.getTime())/(1000*60);
+        long difference = (one.getTime() - two.getTime()) / (1000 * 60);
         return Math.abs(difference);
     }
 
@@ -34,11 +36,13 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
         for (Appointment i : temp) {
             bufferedWriter.write("Description: " + i.getDescription());
             bufferedWriter.newLine();
-            bufferedWriter.write("Begindate: " + i.getBeginTime());
+            bufferedWriter.write("Begindate: " + i.getBeginTimeString());
             bufferedWriter.newLine();
-            bufferedWriter.write("Endingdate: " + i.getEndTime());
+            bufferedWriter.write("Endingdate: " + i.getEndTimeString());
             bufferedWriter.newLine();
-            bufferedWriter.write("Duration: " + durationBetween(i.getBeginTime(),i.getEndTime()) +" minute" );
+            bufferedWriter.write("Appointment duration: " + durationBetween(i.getBeginTime(), i.getEndTime()) + " minutes");
+            bufferedWriter.newLine();
+            bufferedWriter.write("--------------------");
             bufferedWriter.newLine();
         }
 

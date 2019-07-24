@@ -25,7 +25,7 @@ public class Project1 {
     for (int i = 0; i < args.length && flag == false; i++) {
       if (!args[i].equals("-print") && !args[i].equals("-README")) {
         if (args.length - i == 6) {
-          appointment = new Appointment(args[i + 1], args[i + 2], args[i + 3], args[i + 4], args[i + 5]);
+          appointment = new Appointment(args[i + 1], args[i + 2], args[i + 3], args[i + 4], args[i + 5], args[i + 6], args[i+7]);
           list = new AppointmentBook(args[i], appointment);
           flag = true;
         } else {

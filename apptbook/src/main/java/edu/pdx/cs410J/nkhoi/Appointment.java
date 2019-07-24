@@ -16,6 +16,8 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
   private String endingtime;
   private String begindate;
   private String endingdate;
+  private String beginmMeridiem;
+  private String endMeridiem;
   private Date begindateobject;
   private Date endingdateobject;
 
@@ -54,35 +56,24 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
    * @param endingdate  The endingdate of the appointment (mm/dd/yyyy)
    * @param endingtime  The endingtime of the appointment (24-hour time)
    */
-  public Appointment(String description, String begindate, String begintime, String endingdate, String endingtime) {
+  public Appointment(String description, String begindate, String begintime, String beginmMeridiem, String endingdate, String endingtime, String endMeridiem) {
     this.description = description;
     this.begindate = begindate;
     this.begintime = begintime;
     this.endingdate = endingdate;
     this.endingtime = endingtime;
+    this.beginmMeridiem = beginmMeridiem;
+    this.endMeridiem = endMeridiem;
 
     Locale locale = Locale.getDefault();
-    //Date date = new Date();
     try {
-      //Date date = new SimpleDateFormat("mm/dd/yyyy").parse(begindate);
-      //Date time = new SimpleDateFormat("hh:mm").parse(begintime);
-
       DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
-      begindateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm").parse(begindate + " " + begintime);
-      endingdateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm").parse(endingdate + " " + endingtime);
-
-      if(endingdateobject.compareTo(begindateobject) <0){
+      begindateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm a").parse(begindate + " " + begintime + " " + beginmMeridiem);
+      endingdateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm a").parse(endingdate + " " + endingtime + " " + endMeridiem);
+      if (endingdateobject.compareTo(begindateobject) < 0) {
         System.err.println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
         System.exit(1);
       }
-
-      String s = df.format(begindateobject);
-      //String s2 = df2.format(time);
-      //DateFormat df = new SimpleDateFormat(s.get(locale).)
-
-      System.out.println(begindateobject + "\t" + s);
-
-
     } catch (ParseException pe) {
       System.err.println("CAN NOT PARSE STRING");
       System.exit(1);
@@ -123,7 +114,7 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
    */
   @Override
   public String getBeginTimeString() {
-    return begindate + " " + begintime;
+    return begindate + " " + begintime + " " + beginmMeridiem;
   }
 
   /**
@@ -131,7 +122,7 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
    */
   @Override
   public String getEndTimeString() {
-    return endingdate + " " + endingtime;
+    return endingdate + " " + endingtime + " " + endMeridiem;
   }
 
   /**
@@ -143,10 +134,14 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
   }
 
   @Override
-  public Date getBeginTime(){ return begindateobject;}
+  public Date getBeginTime() {
+    return begindateobject;
+  }
 
   @Override
-  public Date getEndTime(){ return endingdateobject;}
+  public Date getEndTime() {
+    return endingdateobject;
+  }
 
   @Override
   public int compareTo(Appointment target) {   // new code
@@ -154,7 +149,7 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
       return this.getBeginTime().compareTo(target.getBeginTime());
     else if (this.getEndTime().compareTo(target.getEndTime()) != 0)
       return this.getEndTime().compareTo(target.getEndTime());
-    else if (this.getDescription().toUpperCase().compareTo(target.getDescription().toUpperCase()) != 0)     //!!! missing handle upper & lowercase the same
+    else if (this.getDescription().toUpperCase().compareTo(target.getDescription().toUpperCase()) != 0)
       return this.getDescription().toUpperCase().compareTo(target.getDescription().toUpperCase());
     else
       return 0;
