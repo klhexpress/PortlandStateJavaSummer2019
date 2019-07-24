@@ -44,6 +44,13 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
         list = null;
     }
 
+    /**
+     * Compare the <code>durationBetween</code> 2 dates
+     *
+     * @param one The begin date
+     * @param two the end date
+     * @return the time different of 2 dates in minutes
+     */
     private long durationBetween(Date one, Date two) {
         long difference = (one.getTime() - two.getTime()) / (1000 * 60);
         return Math.abs(difference);
@@ -68,6 +75,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
 
     /**
      * Wrapper function help to add an appointment to the AppointmentBook
+     * This also sort the appointments in the AppointmentBook as they are added
      *
      * @param target The appointment added to the AppointmentBook
      */
@@ -100,14 +108,16 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     }
 
     /**
-     * Display all the appointments in the AppointmentBook
+     * Pretty display all the appointments in the AppointmentBook
      */
     public void prettydisplay() {
         if (list == null) {
             throw new NullPointerException();
         } else {
             for (int i = 0; i < list.size(); i++) {
-                System.out.println("Description: " + list.get(i).toString() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime()) + " minutes" + "\n--------------------");
+                System.out.println("Description: " + list.get(i).getDescription() + "\nBegin Time: " + list.get(i).getBeginTime()
+                        + "\nEnd Time: " + list.get(i).getEndTime() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime())
+                        + " minutes" + "\n--------------------");
             }
         }
     }

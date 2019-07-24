@@ -74,7 +74,7 @@ public class Project3 {
                         System.err.println("Error writing to file ");
                     }
                 } catch (ParserException p) {
-                    System.err.println("FAIL TO PARSE");
+                    System.err.println("CAN NOT PARSE STRING");
                 }
                 if (FileExist == 1)
                     if (temp.getOwnerName().equals(infile.getOwnerName())) {

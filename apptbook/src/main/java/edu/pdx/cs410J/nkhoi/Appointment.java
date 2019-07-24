@@ -50,11 +50,13 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
   /**
    * Creates a new <code>Appointment</code>
    *
-   * @param description The description of the appointment
-   * @param begindate   The begindate of the appointment (mm/dd/yyyy)
-   * @param begintime   The begintime of the appointment (24-hour time)
-   * @param endingdate  The endingdate of the appointment (mm/dd/yyyy)
-   * @param endingtime  The endingtime of the appointment (24-hour time)
+   * @param description    The description of the appointment
+   * @param begindate      The begindate of the appointment (mm/dd/yyyy)
+   * @param begintime      The begintime of the appointment (12-hour time)
+   * @param beginmMeridiem The beginMeridiem of the appointment (AM or PM)
+   * @param endingdate     The endingdate of the appointment (mm/dd/yyyy)
+   * @param endingtime     The endingtime of the appointment (12-hour time)
+   * @param endMeridiem    The endMeridiem of the appointment (AM or PM)
    */
   public Appointment(String description, String begindate, String begintime, String beginmMeridiem, String endingdate, String endingtime, String endMeridiem) {
     this.description = description;
@@ -133,16 +135,28 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
     return description;
   }
 
+  /**
+   * @return the begindate date object of the appointment
+   */
   @Override
   public Date getBeginTime() {
     return begindateobject;
   }
 
+  /**
+   * @return the enddate date object of the appointment
+   */
   @Override
   public Date getEndTime() {
     return endingdateobject;
   }
 
+  /**
+   * Implement the <code>compareTo</code> method of the Comparable interface
+   *
+   * @param target The appointment which will be compared to
+   * @return the different value of 2 appointments based on their begintime, endtime, or descriptions
+   */
   @Override
   public int compareTo(Appointment target) {   // new code
     if (this.getBeginTime().compareTo(target.getBeginTime()) != 0)
