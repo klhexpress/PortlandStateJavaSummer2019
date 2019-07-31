@@ -29,18 +29,17 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   }
 
   /**
-   * Returns all dictionary entries from the server
-   */
-  public Map<String, String> getAllDictionaryEntries() throws IOException {
-    Response response = get(this.url, Map.of());
-    return Messages.parseDictionary(response.getContent());
-  }
-
-  /**
    * Returns the definition for the given word
    */
   public String searchAppointment(String owner, String beginTime, String endTime) throws IOException {
     Response response = get(this.url, Map.of("owner", owner, "beginTime", beginTime, "endTime", endTime));
+    throwExceptionIfNotOkayHttpStatus(response);
+    String content = response.getContent();
+    return content;
+  }
+
+  public String searchAppointment(String owner) throws IOException {
+    Response response = get(this.url, Map.of("owner", owner));
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
     return content;

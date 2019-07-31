@@ -136,36 +136,11 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
             throw new NullPointerException();
         } else {
             for (int i = 0; i < list.size(); i++) {
-                    getWriter.println("Description: " + list.get(i).getDescription() + "\nBegin Time: " + list.get(i).getBeginTimeString() + "\t" +  list.get(i).getBeginTime()
-                            + "\nEnd Time: " + list.get(i).getEndTimeString() + "\t" +  list.get(i).getEndTime() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime())
-                            + " minutes" + "\n--------------------");
+                getWriter.println("Description: " + list.get(i).getDescription() + "\nBegin Time: " + list.get(i).getBeginTime()
+                        + "\nEnd Time: " + list.get(i).getEndTime() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime())
+                        + " minutes" + "\n--------------------");
             }
         }
     }
 
-    public void prettydisplay(Date startDate, Date endDate) throws IOException {
-        if (list == null) {
-            throw new NullPointerException();
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                if (isWithinRange(list.get(i).getBeginTime(), startDate, endDate) && isWithinRange(list.get(i).getEndTime(), startDate, endDate))
-                    System.out.println("Description: " + list.get(i).getDescription() + "\nBegin Time: " + list.get(i).getBeginTime()
-                            + "\nEnd Time: " + list.get(i).getEndTime() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime())
-                            + " minutes" + "\n--------------------");
-            }
-        }
-    }
-
-    public void prettydisplay() throws IOException {
-        if (list == null) {
-            throw new NullPointerException();
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                //if (isWithinRange(list.get(i).getBeginTime(), startDate, endDate) && isWithinRange(list.get(i).getEndTime(), startDate, endDate))
-                    System.out.println("Description: " + list.get(i).getDescription() + "\nBegin Time: " + list.get(i).getBeginTime()
-                            + "\nEnd Time: " + list.get(i).getEndTime() + "\n" + "Duration: " + durationBetween(list.get(i).getBeginTime(), list.get(i).getEndTime())
-                            + " minutes" + "\n--------------------");
-            }
-        }
-    }
 }
