@@ -111,12 +111,24 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
         return list;
     }
 
+    /**
+     * Determine whether the testDate is within the startDate and endDate
+     *
+     * @param testDate  The date need to be tested
+     * @param startDate The start date
+     * @param endDate   The end date
+     * @return whether the testDate is within the startDate and endDate
+     */
     private boolean isWithinRange(Date testDate, Date startDate, Date endDate) {
         return !(testDate.before(startDate) || testDate.after(endDate));
     }
 
     /**
-     * Pretty display all the appointments in the AppointmentBook
+     * Pretty display all the appointments between the startDate and endDate interval
+     *
+     * @param getWriter method to print on web browser
+     * @param startDate The start date
+     * @param endDate   The end date
      */
     public void prettydisplay(PrintWriter getWriter, Date startDate, Date endDate) throws IOException {
         if (list == null) {
@@ -131,6 +143,11 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
         }
     }
 
+    /**
+     * Pretty display all the appointments in the AppointmentBook
+     *
+     * @param getWriter method to print on web browser
+     */
     public void prettydisplay(PrintWriter getWriter) throws IOException {
         if (list == null) {
             throw new NullPointerException();

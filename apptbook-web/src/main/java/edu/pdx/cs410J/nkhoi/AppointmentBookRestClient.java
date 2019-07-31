@@ -29,7 +29,11 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   }
 
   /**
-   * Returns the definition for the given word
+   * Returns the Appointment for the given owner
+   *
+   * @param owner The AppointmentBook owner
+   * @param beginTime The begin time of the search
+   * @param endTime The end time of the search
    */
   public String searchAppointment(String owner, String beginTime, String endTime) throws IOException {
     Response response = get(this.url, Map.of("owner", owner, "beginTime", beginTime, "endTime", endTime));
@@ -38,6 +42,11 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return content;
   }
 
+/**
+ * Returns the Appointment for the given owner
+ *
+ * @param owner The AppointmentBook owner
+ * */
   public String searchAppointment(String owner) throws IOException {
     Response response = get(this.url, Map.of("owner", owner));
     throwExceptionIfNotOkayHttpStatus(response);
@@ -45,6 +54,12 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return content;
   }
 
+  /**
+   * Helper function to add an appointment from command line to server
+   * @return  the Appointment recently added
+   *
+   * @param owner The AppointmentBook owner
+   * */
   public String addAppointment(String owner, String description, String beginTime, String endTime) throws IOException {
     Map<String, String> params =
             Map.of(
@@ -65,6 +80,9 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return post(this.url, dictionaryEntries);
   }
 
+  /**
+   * Remove all the AppointmentBook in the server
+   * */
   public void removeAllAppointmentBooks() throws IOException {
     Response response = delete(this.url, Map.of());
     throwExceptionIfNotOkayHttpStatus(response);

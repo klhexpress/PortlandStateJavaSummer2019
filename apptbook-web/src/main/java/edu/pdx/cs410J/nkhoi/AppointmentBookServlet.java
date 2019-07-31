@@ -27,10 +27,10 @@ public class AppointmentBookServlet extends HttpServlet {
     static final Map<String, AppointmentBook> listofAppointmentBook = new HashMap<>();
 
     /**
-     * Handles an HTTP GET request from a client by writing the definition of the
-     * word specified in the "word" HTTP parameter to the HTTP response.  If the
-     * "word" parameter is not specified, all of the entries in the dictionary
-     * are written to the HTTP response.
+     * Handles an HTTP GET request from a client by writing the AppointmentBook of the
+     * owner specified in the "owner" HTTP parameter to the HTTP response. If "beginTime"
+     * "endTime" parameters are also specified, print only appointments in those time
+     * interval
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -76,15 +76,19 @@ public class AppointmentBookServlet extends HttpServlet {
 
     }
 
+    /**
+     * Split the String getting from "beginTime" and "endTime" parameters
+     * @return the date, time, and meridiem
+     */
     private String[] splitString(String input) {
         String[] words = input.split(" ");
         return words;
     }
 
     /**
-     * Handles an HTTP POST request by storing the dictionary entry for the
-     * "word" and "definition" request parameters.  It writes the dictionary
-     * entry to the HTTP response.
+     * Handles an HTTP POST request by creating new AppointmentBook or adding to existed AppointmentBook and
+     * storing the Appointment based on the info get from "owner", "description", "beginTime, and "endTime" request
+     * parameters.  It writes the AppointmentBook to the HTTP response.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -127,6 +131,12 @@ public class AppointmentBookServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Get the input string from the parameter
+     * @param parameter the parameter which will get input from
+     * @return the input extract from parameter
+     * @throws IOException
+     */
     private String getRequireParameter(HttpServletRequest request, HttpServletResponse response, String parameter) throws IOException {
         String value = getParameter(parameter, request);
         if (value == null) {
