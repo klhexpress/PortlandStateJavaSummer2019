@@ -91,7 +91,7 @@ public class Project4 {
 
             } else if (description == null) {
                 // Print all dictionary entries
-                message = Messages.formatDictionaryEntry(owner, client.getDefinition(owner));
+                //message = Messages.formatDictionaryEntry(owner, client.getDefinition(owner));
 
             } else {
                 // Create new appointmentBook
@@ -107,7 +107,8 @@ public class Project4 {
 
         try {
             //System.out.println("in here");
-            AppointmentBookServlet.listofAppointmentBook.get(owner).prettydisplay();
+            message=client.searchAppointment(owner,"1/1/2019 01:00 am", "4/4/2019 10:00 pm");
+            System.out.println(message);
         }catch ( IOException ex ) {
                 error("While contacting server: " + ex);
                 return;

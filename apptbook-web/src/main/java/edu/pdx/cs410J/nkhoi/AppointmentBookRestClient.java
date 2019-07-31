@@ -39,11 +39,11 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
   /**
    * Returns the definition for the given word
    */
-  public String getDefinition(String word) throws IOException {
-    Response response = get(this.url, Map.of("word", word));
+  public String searchAppointment(String owner, String beginTime, String endTime) throws IOException {
+    Response response = get(this.url, Map.of("owner", owner, "beginTime", beginTime, "endTime", endTime));
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
-    return Messages.parseDictionaryEntry(content).getValue();
+    return content;
   }
 
   public String addAppointment(String owner, String description, String beginTime, String endTime) throws IOException {
