@@ -10,19 +10,24 @@ Endingdate: Fri Jan 28 02:00:00 PST 2022
 Appointment duration: 1052955481 minutes
 --------------------
 Description: test 3
-Begindate: Sun Jan 20 03:00:00 PST 2013
-Endingdate: Mon Jan 21 07:30:00 PST 2013
+Begindate: Fri Dec 20 03:00:00 PST 2013
+Endingdate: Sat Dec 21 07:30:00 PST 2013
 Appointment duration: 1710 minutes
 --------------------
 Description: test 4
-Begindate: Sun Jan 20 07:00:00 PST 2013
-Endingdate: Mon Jan 21 10:30:00 PST 2013
+Begindate: Fri Dec 20 07:00:00 PST 2013
+Endingdate: Sat Dec 21 10:30:00 PST 2013
 Appointment duration: 1650 minutes
 --------------------
 Description: test 5
-Begindate: Sun Jan 20 09:00:00 PST 2013
-Endingdate: Mon Jan 21 10:30:00 PST 2013
+Begindate: Fri Dec 20 09:00:00 PST 2013
+Endingdate: Sat Dec 21 10:30:00 PST 2013
 Appointment duration: 1530 minutes
+--------------------
+Description: Test 0
+Begindate: Sat Jun 01 02:00:00 PDT 2019
+Endingdate: Sat Jun 01 05:00:00 PDT 2019
+Appointment duration: 180 minutes
 --------------------
 Description: test 1
 Begindate: Sun Jan 26 23:59:00 PST 2020

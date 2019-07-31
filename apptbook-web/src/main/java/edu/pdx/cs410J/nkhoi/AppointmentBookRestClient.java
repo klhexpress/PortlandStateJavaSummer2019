@@ -46,9 +46,19 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return Messages.parseDictionaryEntry(content).getValue();
   }
 
-  public void addDictionaryEntry(String word, String definition) throws IOException {
-    Response response = postToMyURL(Map.of("word", word, "definition", definition));
+  public String addAppointment(String owner, String description, String beginTime, String endTime) throws IOException {
+    Map<String, String> params =
+            Map.of(
+                    "owner", owner,
+                    "description", description,
+                    "beginTime", beginTime,
+                    "endTime", endTime);
+
+
+
+    Response response = postToMyURL(params);
     throwExceptionIfNotOkayHttpStatus(response);
+    return response.getContent();
   }
 
   @VisibleForTesting
@@ -56,22 +66,23 @@ public class AppointmentBookRestClient extends HttpRequestHelper {
     return post(this.url, dictionaryEntries);
   }
 
-  public void removeAllDictionaryEntries() throws IOException {
+  public void removeAllAppointmentBooks() throws IOException {
     Response response = delete(this.url, Map.of());
     throwExceptionIfNotOkayHttpStatus(response);
   }
 
   private Response throwExceptionIfNotOkayHttpStatus(Response response) {
     int code = response.getCode();
+    String message = response.getContent();
     if (code != HTTP_OK) {
-      throw new AppointmentBookRestException(code);
+      throw new AppointmentBookRestException(code, message);
     }
     return response;
   }
 
   private class AppointmentBookRestException extends RuntimeException {
-    public AppointmentBookRestException(int httpStatusCode) {
-      super("Got an HTTP Status Code of " + httpStatusCode);
+    public AppointmentBookRestException(int httpStatusCode, String message) {
+      super("Got an HTTP Status Code of " + httpStatusCode + ": " + message);
     }
   }
 }

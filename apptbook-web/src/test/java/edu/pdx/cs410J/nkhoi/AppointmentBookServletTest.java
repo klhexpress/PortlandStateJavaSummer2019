@@ -41,7 +41,7 @@ public class AppointmentBookServletTest {
     verify(response).setStatus(HttpServletResponse.SC_OK);
   }
 */
-
+/*
   @Test
   public void addAppointmenttotheAppointmentBook() throws ServletException, IOException {
     AppointmentBookServlet servlet = new AppointmentBookServlet();
@@ -82,4 +82,33 @@ public class AppointmentBookServletTest {
     verify(pw).println(test.toString());
   }
 
+
+  @Test
+  public void returnAllAppointmentFromGivenName() throws ServletException, IOException{
+    AppointmentBookServlet servlet = new AppointmentBookServlet();
+
+    String owner = "TESTING";
+    String description = "TEST 1";
+    String beginTime = "1/1/2019 1:00 am";
+    String endTime = "1/1/2019 2:00 am";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter("owner")).thenReturn(owner);
+    when(request.getParameter("description")).thenReturn(description);
+    when(request.getParameter("beginTime")).thenReturn(beginTime);
+    when(request.getParameter("endTime")).thenReturn(endTime);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    PrintWriter pw = mock(PrintWriter.class);
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request, response);
+    servlet.doGet(request, response);
+
+    verify(response).setStatus(HttpServletResponse.SC_OK);
+
+    //AppointmentBook book = servlet.getAppointmentBook(owner);
+
+  }
+*/
 }

@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This servlet ultimately provides a REST API for working with an
@@ -23,7 +25,7 @@ public class AppointmentBookServlet extends HttpServlet
     static final String BEGINTIME_PARAMETER = "beginTime";
     static final String ENDTIME_PARAMETER = "endTime";
 
-    private final Map<String, AppointmentBook> listofAppointmentBook = new HashMap<>();
+    static final Map<String, AppointmentBook> listofAppointmentBook = new HashMap<>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -32,17 +34,95 @@ public class AppointmentBookServlet extends HttpServlet
      * are written to the HTTP response.
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-        response.setContentType( "text/plain" );
-/*
-        String word = getParameter( WORD_PARAMETER, request );
-        if (word != null) {
-            writeDefinition(word, response);
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+        response.setContentType("text/plain");
+        String name = getParameter(OWNER_PARAMETER, request);
+        String beginTime = getParameter(BEGINTIME_PARAMETER, request);
+        String endTime = getParameter(ENDTIME_PARAMETER, request);
+        Date begindateobject = null;
+        Date endingdateobject = null;
 
-        } else {
-            writeAllDictionaryEntries(response);
+        /*if(beginTime!=null && endTime!=null) {
+            try {
+                begindateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(beginTime);
+                endingdateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(endTime);
+                if (endingdateobject.compareTo(begindateobject) < 0) {
+                    response.getWriter().println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
+                    return;
+                }
+            } catch (ParseException pe) {
+                response.getWriter().println("MALFORMATTED DATE/TIME");
+                return;
+            }
+
+            try {
+                if (name != null) {
+                    //response.getWriter().println(beginTime);
+                    response.getWriter().println(name + "'s appointment book");
+                    getAppointmentBook(name).prettydisplay(response.getWriter(), begindateobject, endingdateobject);
+                } else {
+                    response.getWriter().println("PARAMETER FOR OWNER NAME IS REQUIRED TO PRINT THE APPOINTMENT BOOK");
+                }
+            } catch (IOException io) {
+                response.getWriter().println("CAN NOT PRINT " + name + "'S APPOINTMENT BOOK ");
+                return;
+            } catch (Exception e) {
+                response.getWriter().println("THERE IS NO APPOINTMENT BOOK OWNER: " + name);
+                return;
+            }
+        }
+        else{
+            try {
+                if (name != null) {
+                    //response.getWriter().println(beginTime);
+                    response.getWriter().println(name + "'s appointment book");
+                    getAppointmentBook(name).prettydisplay(response.getWriter());
+                } else {
+                    response.getWriter().println("PARAMETER FOR OWNER NAME IS REQUIRED");
+                }
+            } catch (IOException io) {
+                response.getWriter().println("CAN NOT PRINT " + name + "'S APPOINTMENT BOOK ");
+                return;
+            } catch (Exception e) {
+                response.getWriter().println("There is no Appointment Book for owner: " + name);
+                return;
+            }
         }*/
+
+        if(beginTime!=null && endTime!=null) {
+            try {
+                begindateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(beginTime);
+                endingdateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(endTime);
+                if (endingdateobject.compareTo(begindateobject) < 0) {
+                    response.getWriter().println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
+                    return;
+                }
+            } catch (ParseException pe) {
+                response.getWriter().println("MALFORMATTED DATE/TIME");
+                return;
+            }
+        }
+
+        try {
+            if (name != null) {
+                //response.getWriter().println(beginTime);
+                response.getWriter().println(name + "'s appointment book");
+                if(begindateobject!=null && endingdateobject!=null)
+                    getAppointmentBook(name).prettydisplay(response.getWriter(), begindateobject, endingdateobject);
+                else
+                    getAppointmentBook(name).prettydisplay(response.getWriter());
+            } else {
+                response.getWriter().println("PARAMETER FOR OWNER NAME IS REQUIRED TO PRINT THE APPOINTMENT BOOK");
+            }
+        } catch (IOException io) {
+            response.getWriter().println("CAN NOT PRINT " + name + "'S APPOINTMENT BOOK ");
+            return;
+        } catch (Exception e) {
+            response.getWriter().println("THERE IS NO APPOINTMENT BOOK OWNER: " + name);
+            return;
+        }
+
+
     }
 
     private String[] splitString(String input) {
@@ -59,37 +139,69 @@ public class AppointmentBookServlet extends HttpServlet
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         response.setContentType("text/plain");
 
-        String parameter = OWNER_PARAMETER;
-        String owner = getRequireParameter(request, response, parameter);
-        if (owner == null) return;
+        /*AppointmentBook book = new AppointmentBook("Harry");
+        this.listofAppointmentBook.put("Harry", book);
 
-        String description = getRequireParameter(request, response, DESCRIPTION_PARAMETER);
-        if (description == null) return;
+        String begintest1 = "1/1/2019 02:00 am";
+        String endtest1 = "1/1/2019 05:00 am";
+        String[] begin =  splitString(begintest1);
+        String[] end = splitString(endtest1);
+        Appointment appt1 = new Appointment("Test 1", begin[0], begin[1], begin[2], end[0], end[1], end[2]);
+        book.addAppointment(appt1);
 
-        String beginTime = getRequireParameter(request, response, BEGINTIME_PARAMETER);
-        if (beginTime == null) return;
+        String begintest2 = "3/3/2019 02:00 am";
+        String endtest2 = "3/3/2019 05:00 am";
+        begin =  splitString(begintest2);
+        end = splitString(endtest2);
+        Appointment appt2 = new Appointment("Test 2", begin[0], begin[1], begin[2], end[0], end[1], end[2]);
+        book.addAppointment(appt2);
 
-        String endTime = getRequireParameter(request, response, ENDTIME_PARAMETER);
-        if (endTime == null) return;
+        String begintest3 = "5/5/2019 02:00 am";
+        String endtest3 = "5/5/2019 05:00 am";
+        begin =  splitString(begintest3);
+        end = splitString(endtest3);
+        Appointment appt3 = new Appointment("Test 3", begin[0], begin[1], begin[2], end[0], end[1], end[2]);
+        book.addAppointment(appt3);*/
+        try {
+            String owner = getRequireParameter(request, response, OWNER_PARAMETER);
+            if (owner == null) return;
 
-        //this.listofAppointmentBook.put(word, definition);
+            String description = getRequireParameter(request, response, DESCRIPTION_PARAMETER);
+            if (description == null) return;
 
-        String[] begin = new String[3];
-        begin = splitString(beginTime);
-        String[] end = new String[3];
-        end = splitString(endTime);
+            String beginTime = getRequireParameter(request, response, BEGINTIME_PARAMETER);
+            if (beginTime == null) return;
 
-        AppointmentBook book = new AppointmentBook(owner);
-        this.listofAppointmentBook.put(owner, book);
-
-        Appointment appt = new Appointment(description, begin[0], begin[1], begin[2], end[0], end[1], end[2]);
-        book.addAppointment(appt);
+            String endTime = getRequireParameter(request, response, ENDTIME_PARAMETER);
+            if (endTime == null) return;
 
 
-        response.getWriter().println(appt.toString());
-        response.setStatus(HttpServletResponse.SC_OK);
+            String[] begin = splitString(beginTime);
+            String[] end = splitString(endTime);
+
+            Appointment appt = new Appointment(description, begin[0], begin[1], begin[2], end[0], end[1], end[2]);
+
+            if (listofAppointmentBook.containsKey(owner)) {
+                getAppointmentBook(owner).addAppointment(appt);
+            } else {
+                AppointmentBook book = new AppointmentBook(owner);
+                this.listofAppointmentBook.put(owner, book);
+                book.addAppointment(appt);
+            }
+
+            response.getWriter().println(appt.toString());
+        /*response.getWriter().println(appt1.toString());
+        response.getWriter().println(appt2.toString());
+        response.getWriter().println(appt3.toString());*/
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (IllegalArgumentException iae) {
+            response.getWriter().println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
+            return;
+        }catch (ParseException pe){
+            response.getWriter().println("MALFORMATTED DATE/TIME");
+            return;
+        }
     }
-
     private String getRequireParameter(HttpServletRequest request, HttpServletResponse response, String parameter) throws IOException {
         String value = getParameter(parameter, request);
         if (value == null) {
@@ -171,7 +283,7 @@ public class AppointmentBookServlet extends HttpServlet
     }
 
     @VisibleForTesting
-    AppointmentBook getAppointmentBook(String word) {
-        return this.listofAppointmentBook.get(word);
+    static AppointmentBook getAppointmentBook(String name) {
+        return listofAppointmentBook.get(name);
     }
 }

@@ -26,10 +26,11 @@ public class AppointmentBookRestClientIT {
     return new AppointmentBookRestClient(HOSTNAME, port);
   }
 
+
   @Test
-  public void test0RemoveAllDictionaryEntries() throws IOException {
+  public void test0RemoveAllAppointmentBooks() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-    client.removeAllDictionaryEntries();
+    client.removeAllAppointmentBooks();
   }
 
   @Test
@@ -40,14 +41,20 @@ public class AppointmentBookRestClientIT {
   }
 
   @Test
-  public void test2DefineOneWord() throws IOException {
+  public void test2OneAppointment() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
-    String testWord = "TEST WORD";
-    String testDefinition = "TEST DEFINITION";
-    client.addDictionaryEntry(testWord, testDefinition);
+    String owner = "TEST WORD";
+    String description = "TESTING";
+    String beginTime = "1/1/2019 2:00 am";
+    String endTime = "1/1/2019 3:00 am";
+    String appointmentToString = client.addAppointment(owner, description, beginTime, endTime);
 
-    String definition = client.getDefinition(testWord);
-    assertThat(definition, equalTo(testDefinition));
+    //String definition = client.getDefinition(owner);
+    //System.out.println(appointmentToString);
+    assertThat(appointmentToString, containsString(description));
+    assertThat(appointmentToString, containsString(beginTime));
+    assertThat(appointmentToString, containsString(endTime));
+
   }
 
   @Test
@@ -57,5 +64,8 @@ public class AppointmentBookRestClientIT {
     assertThat(response.getContent(), containsString(Messages.missingRequiredParameter("word")));
     assertThat(response.getCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
   }
+
+
+
 
 }

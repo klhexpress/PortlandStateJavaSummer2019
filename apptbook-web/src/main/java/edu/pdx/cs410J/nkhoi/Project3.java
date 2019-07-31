@@ -6,7 +6,7 @@ import java.io.*;
  * The main class for the CS410J appointment book Project
  */
 
-
+/*
 public class Project3 {
 
     static final String README = "KHOI NGUYEN - PROJECT 3 - This project will take owner name, description, begintime, and ending time to create an appointment. " +
@@ -114,3 +114,4 @@ public class Project3 {
         System.exit(0);
     }
 }
+*/

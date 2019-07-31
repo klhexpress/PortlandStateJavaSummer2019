@@ -70,8 +70,9 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
     Locale locale = Locale.getDefault();
     try {
       DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
-      begindateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm a").parse(begindate + " " + begintime + " " + beginmMeridiem);
-      endingdateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm a").parse(endingdate + " " + endingtime + " " + endMeridiem);
+      begindateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(begindate + " " + begintime + " " + beginmMeridiem);
+      endingdateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(endingdate + " " + endingtime + " " + endMeridiem);
+      System.out.println(begindateobject);
       if (endingdateobject.compareTo(begindateobject) < 0) {
         System.err.println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
         System.exit(1);

@@ -1,6 +1,10 @@
 package edu.pdx.cs410J.nkhoi;
 
 import edu.pdx.cs410J.AbstractAppointment;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -21,26 +25,6 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
   private Date begindateobject;
   private Date endingdateobject;
 
-
-  /**
-   * Creates a new <code>splittingString</code>
-   *
-   * @param input The input string which will be split
-   * @throws NumberFormatException Throw an exception when the input date/time is malformatted
-   */
-  private int[] splittingString(String input) throws NumberFormatException {
-    String[] words = input.split("/|\\:");
-    if (words.length > 3) {
-      System.err.println("Date/Time is malformatted");
-      System.exit(1);
-    }
-    int[] number = new int[3];
-    int i = 0;
-    for (String w : words)
-      number[i] = Integer.parseInt(words[i++]);
-    return number;
-  }
-
   /**
    * Creates an empty <code>Appointment</code>
    */
@@ -58,7 +42,7 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
    * @param endingtime     The endingtime of the appointment (12-hour time)
    * @param endMeridiem    The endMeridiem of the appointment (AM or PM)
    */
-  public Appointment(String description, String begindate, String begintime, String beginmMeridiem, String endingdate, String endingtime, String endMeridiem) {
+  public Appointment(String description, String begindate, String begintime, String beginmMeridiem, String endingdate, String endingtime, String endMeridiem) throws IllegalArgumentException,ParseException {
     this.description = description;
     this.begindate = begindate;
     this.begintime = begintime;
@@ -68,47 +52,52 @@ public class Appointment extends AbstractAppointment implements Comparable <Appo
     this.endMeridiem = endMeridiem;
 
     Locale locale = Locale.getDefault();
-    try {
-      DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
-      begindateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm a").parse(begindate + " " + begintime + " " + beginmMeridiem);
-      endingdateobject = new SimpleDateFormat("mm/dd/yyyy hh:mm a").parse(endingdate + " " + endingtime + " " + endMeridiem);
-      if (endingdateobject.compareTo(begindateobject) < 0) {
-        System.err.println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
-        System.exit(1);
-      }
-    } catch (ParseException pe) {
-      System.err.println("CAN NOT PARSE STRING");
-      System.exit(1);
-    }
 
-    try {
-      int[] startdates = splittingString(this.begindate);
-      int[] enddates = splittingString(this.endingdate);
-
-      if (startdates[0] > 12 || startdates[0] < 0 || startdates[1] < 0 || startdates[1] > 31) {
-        System.err.println("ERROR START DATE");
-        System.exit(1);
-      }
-      if (enddates[0] > 12 || enddates[0] < 0 || enddates[1] < 0 || enddates[1] > 31) {
-        System.err.println("ERROR END DATE");
-        System.exit(1);
+      try {
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+        begindateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(begindate + " " + begintime + " " + beginmMeridiem);
+        endingdateobject = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(endingdate + " " + endingtime + " " + endMeridiem);
+        if (endingdateobject.compareTo(begindateobject) < 0) {
+          throw new IllegalArgumentException();
+          //response.getWriter().println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
+          //System.err.println("ENDDATE CAN NOT BE EARLIER THAN BEGIN DATE");
+          //System.exit(1);
+        }
+      } catch (ParseException pe) {
+        throw new ParseException("MALFORMATTED DATE/TIME",0);
+        //System.err.println("MALFORMATTED DATE/TIME");
+        //System.exit(1);
       }
 
-      int[] starttimes = splittingString(begintime);
-      int[] endtimes = splittingString(endingtime);
+      /*try {
+        int[] startdates = splittingString(this.begindate);
+        int[] enddates = splittingString(this.endingdate);
 
-      if (starttimes[0] > 23 || starttimes[0] < 0 || starttimes[1] < 0 || starttimes[1] > 59) {
-        System.err.println("ERROR START TIME");
+        if (startdates[0] > 12 || startdates[0] < 0 || startdates[1] < 0 || startdates[1] > 31) {
+          System.err.println("ERROR START DATE");
+          System.exit(1);
+        }
+        if (enddates[0] > 12 || enddates[0] < 0 || enddates[1] < 0 || enddates[1] > 31) {
+          System.err.println("ERROR END DATE");
+          System.exit(1);
+        }
+
+        int[] starttimes = splittingString(begintime);
+        int[] endtimes = splittingString(endingtime);
+
+        if (starttimes[0] > 23 || starttimes[0] < 0 || starttimes[1] < 0 || starttimes[1] > 59) {
+          System.err.println("ERROR START TIME");
+          System.exit(1);
+        }
+        if (endtimes[0] > 23 || endtimes[0] < 0 || endtimes[1] < 0 || endtimes[1] > 59) {
+          System.err.println("ERROR END TIME");
+          System.exit(1);
+        }
+      } catch (NumberFormatException ex) {
+        System.err.println("Date/Time is malformatted");
         System.exit(1);
-      }
-      if (endtimes[0] > 23 || endtimes[0] < 0 || endtimes[1] < 0 || endtimes[1] > 59) {
-        System.err.println("ERROR END TIME");
-        System.exit(1);
-      }
-    } catch (NumberFormatException ex) {
-      System.err.println("Date/Time is malformatted");
-      System.exit(1);
-    }
+      }*/
+
   }
 
   /**
