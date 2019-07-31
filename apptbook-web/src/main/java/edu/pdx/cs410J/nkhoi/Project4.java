@@ -25,6 +25,10 @@ public class Project4 {
 
     public static void main(String... args) {
 
+        if(args.length == 0){
+            System.err.println("MISSING ARGUMENT");
+            System.exit(1);
+        }
         String message;
         Date begindateobject, endingdateobject;
         String hostnameString = null;
