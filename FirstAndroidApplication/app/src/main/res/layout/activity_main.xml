@@ -20,16 +20,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:onClick="toastMe"
         android:id="@+id/TOAST"
-        android:layout_width="90dp"
-        android:layout_height="52dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="37dp"
         android:layout_marginRight="37dp"
         android:layout_marginBottom="152dp"
+        android:onClick="toastMe"
         android:text="TOAST"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/COUNT"
@@ -55,6 +55,7 @@
 
     <Button
         android:id="@+id/RANDOM"
+        android:onClick="randomMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
