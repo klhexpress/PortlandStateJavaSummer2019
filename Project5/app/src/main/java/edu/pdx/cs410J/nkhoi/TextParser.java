@@ -1,7 +1,7 @@
 package edu.pdx.cs410j.nkhoi;
 
-
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.text.ParseException;
 /**
  * This class is represents a <code>TextParser</code>.
  */
-public class TextParser{
+public class TextParser {
     private String fileName;
     private FileReader fileReader;
 
@@ -20,9 +20,9 @@ public class TextParser{
      * @param input The name of the file will be parsed
      * @throws FileNotFoundException throw an exception in case the file can't be opened/found
      */
-    public TextParser(String input) throws FileNotFoundException {
+    public TextParser(File arg, String input) throws FileNotFoundException {
         fileName = input;
-        fileReader = new FileReader(fileName);
+        fileReader = new FileReader(new File(arg, fileName));
     }
 
     /**
@@ -38,10 +38,9 @@ public class TextParser{
 
     /**
      * @return the AppointmentBook read from the file
-     * @throws ParserException in case it's fail to parse
+     * @throws ParseException in case it's fail to parse
      */
-
-    public AppointmentBook parse() throws ParseException {
+    public AppointmentBook parse() throws ParseException, FileNotFoundException {
         AppointmentBook temp = new AppointmentBook();
         Appointment inFile;
         String ch;
@@ -98,5 +97,31 @@ public class TextParser{
             System.err.println("ERROR IN READING FILE ");
         }
         return temp;
+    }
+
+    public String[] parsefromnamefile() {
+        String ch;
+        int total, i = 0;
+        String[] name;
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            ch = bufferedReader.readLine();
+            if (ch.startsWith("Total: ")) {
+                total = Integer.parseInt(ch.substring(ch.indexOf("Total:") + 7, ch.length()));
+            } else
+                throw new FileNotFoundException();
+            name = new String[total];
+            ch = bufferedReader.readLine();
+            while (ch != null) {
+                name[i++] = ch;
+                ch = bufferedReader.readLine();
+            }
+
+            fileReader.close();
+        } catch (IOException e) {
+            return null;
+        }
+        return name;
     }
 }

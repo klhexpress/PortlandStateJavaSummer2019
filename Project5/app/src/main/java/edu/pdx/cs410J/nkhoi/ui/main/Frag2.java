@@ -69,22 +69,13 @@ public class Frag2 extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment2_main, container, false);
-        //final TextView textView = root.findViewById(R.id.section_label);
 
-        //get the spinner from the xml.
         dropdown = root.findViewById(R.id.spinner1);
-        //create a list of items for the spinner.
-        String[] items = new String[]{"No owner yet"};
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
+        String[] items = ((MainActivity) getActivity()).getnamefromfile() == null ? new String[]{"No owner yet"} : ((MainActivity) getActivity()).getnamefromfile();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
-        //pageViewModel.setIndex(index);
 
         Button exampleBtn = (Button) root.findViewById(R.id.retrieve);
         exampleBtn.setOnClickListener(this);
@@ -113,9 +104,6 @@ public class Frag2 extends Fragment implements View.OnClickListener {
         Date begindateobject = null;
         Date endingdateobject = null;
 
-        EditText ownerfrombox = getView().findViewById(R.id.editText1);
-        String ownername = ownerfrombox.getText().toString();
-
         EditText from = getView().findViewById(R.id.from);
         EditText until = getView().findViewById(R.id.until);
 
@@ -124,7 +112,7 @@ public class Frag2 extends Fragment implements View.OnClickListener {
 
         TextView list = getView().findViewById(R.id.listofappointment);
 
-
+        String ownername = dropdown.getSelectedItem().toString();
 
         if (TextUtils.isEmpty(ownername)) {
             myToast = Toast.makeText(getActivity(), "OWNER NAME CAN'T EMPTY", Toast.LENGTH_LONG);
@@ -133,7 +121,7 @@ public class Frag2 extends Fragment implements View.OnClickListener {
         }
 
         if (((MainActivity) getActivity()).getAppointmentBook(ownername) == null) {
-            myToast = Toast.makeText(getActivity(), "No appointment", Toast.LENGTH_LONG);
+            myToast = Toast.makeText(getActivity(), "NO APPOINTMENT", Toast.LENGTH_LONG);
             myToast.show();
             return;
         }
@@ -159,10 +147,6 @@ public class Frag2 extends Fragment implements View.OnClickListener {
                 myToast.show();
                 return;
             }
-
-
-            //else
-            // list.setText(((MainActivity)getActivity()).getAppointmentBook(ownername).prettydisplay(0));
 
         }
     }

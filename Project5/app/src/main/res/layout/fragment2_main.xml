@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/enddate"
+        android:id="@+id/ownertext"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
@@ -43,59 +43,76 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
+    <TextView
+        android:id="@+id/fromtext"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="92dp"
+        android:text="from"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
     <EditText
         android:id="@+id/from"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginStart="19dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="92dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.012"
+        app:layout_constraintHorizontal_bias="0.374"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/until" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/untiltext"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="156dp"
+        android:text="until"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <EditText
         android:id="@+id/until"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginStart="19dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.374"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/from" />
 
-
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="376dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/retrieve" />
 
     <TextView
         android:id="@+id/listofappointment"
-        android:layout_width="369dp"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="4dp"
-        android:text="listofappointment"
+        android:text=""
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText1"
+        app:layout_constraintTop_toBottomOf="@+id/retrieve"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
@@ -106,11 +123,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="136dp"
         android:layout_marginEnd="8dp"
-        android:text="DISPLAY APPOINTMENTBOOK"
+        android:text="DISPLAY APPOINTMENTS"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enddate" />
+        app:layout_constraintTop_toBottomOf="@+id/ownertext" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

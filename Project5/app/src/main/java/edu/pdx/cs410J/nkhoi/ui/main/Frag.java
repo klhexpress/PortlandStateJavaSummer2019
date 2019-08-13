@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.text.ParseException;
+
 import edu.pdx.cs410j.nkhoi.Appointment;
 import edu.pdx.cs410j.nkhoi.AppointmentBook;
 import edu.pdx.cs410j.nkhoi.MainActivity;
@@ -80,9 +82,9 @@ public class Frag extends Fragment implements View.OnClickListener {
     public void addAppointment(View view) {
 
         EditText ownerfrombox = getView().findViewById(R.id.Owner);
-        TextView descripfrombox = getView().findViewById(R.id.description);
         EditText beginfrombox = getView().findViewById(R.id.editText1);
         EditText endfrombox = getView().findViewById(R.id.editText2);
+        TextView descripfrombox = getView().findViewById(R.id.editText3);
 
         String owner = ownerfrombox.getText().toString();
         String description = descripfrombox.getText().toString();
@@ -91,19 +93,37 @@ public class Frag extends Fragment implements View.OnClickListener {
 
 
         if (TextUtils.isEmpty(beginTime) || TextUtils.isEmpty(endTime) || TextUtils.isEmpty(owner) || TextUtils.isEmpty(description)) {
-            Toast myToast = Toast.makeText(getActivity(), "No field can empty", Toast.LENGTH_LONG);
+            Toast myToast = Toast.makeText(getActivity(), "NO FIELD CAN EMPTY", Toast.LENGTH_LONG);
             myToast.show();
             return;
         }
 
-        String[] begin = splitString(beginTime);
-        String[] end = splitString(endTime);
+        Appointment appt = null;
+        try {
+            String[] begin = splitString(beginTime);
+            String[] end = splitString(endTime);
 
-        Appointment appt = new Appointment(description, begin[0], begin[1], begin[2], end[0], end[1], end[2]);
+            if (begin.length != 3 || end.length != 3) {
+                Toast myToast = Toast.makeText(getActivity(), "MALFORMATTED DATE/TIME", Toast.LENGTH_LONG);
+                myToast.show();
+                return;
+            }
 
-        ((MainActivity)getActivity()).setListofAppointmentBook(owner,appt);
+            appt = new Appointment(description, begin[0], begin[1], begin[2], end[0], end[1], end[2]);
+
+
+        } catch (IllegalArgumentException iae) {
+            Toast myToast = Toast.makeText(getActivity(), "END DATE CAN NOT BE EARLIER THAN BEGIN DATE", Toast.LENGTH_LONG);
+            myToast.show();
+            return;
+        } catch (ParseException pe) {
+            Toast myToast = Toast.makeText(getActivity(), "MALFORMATTED DATE/TIME", Toast.LENGTH_LONG);
+            myToast.show();
+            return;
+        }
+        ((MainActivity) getActivity()).setListofAppointmentBook(owner, appt);
         Frag2.getInstance().updatelistofname(owner);
-        descripfrombox.setText(appt.toString());
-
+        Toast myToast = Toast.makeText(getActivity(), "APPOINTMENT ADDED", Toast.LENGTH_LONG);
+        myToast.show();
     }
 }

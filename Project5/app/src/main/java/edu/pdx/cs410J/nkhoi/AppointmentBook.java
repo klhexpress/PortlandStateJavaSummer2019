@@ -1,10 +1,6 @@
 package edu.pdx.cs410j.nkhoi;
 
-//import edu.pdx.cs410j.AbstractAppointment;
-//import edu.pdx.cs410j.AbstractAppointmentBook;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -137,8 +133,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
             return "No appointment";
         }
         if(pos >= list.size())
-            return "";//else {
-
+            return "";
         return ("Description: " + list.get(pos).getDescription() + "\nBegin Time: " + list.get(pos).getBeginTime()
                         + "\nEnd Time: " + list.get(pos).getEndTime() + "\n" + "Duration: " + durationBetween(list.get(pos).getBeginTime(), list.get(pos).getEndTime())
                         + " minutes" + "\n--------------------") + "\n" + prettydisplay(pos +1);
